@@ -3,3 +3,5 @@ uvicorn
 gunicorn 
 sse-starlette
 selenium
+requests
+beautifulsoup4

@@ -16,7 +16,7 @@ class TrendyolShop:
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     driver = webdriver.Chrome(chrome_options=chrome_options)
-    
+
     url = "https://www.tgju.org/profile/price_try"
     
 
@@ -24,7 +24,8 @@ class TrendyolShop:
         try:
             self.driver.get(self.url)
             self.driver.refresh()
-            tl_rial = self.driver.find_elements(By.CLASS_NAME, "text-left")
+            
+            tl_rial = WebDriverWait(self.driver, 10).until.find_elements(By.CLASS_NAME, "text-left")
             tl_rial_int = int(tl_rial[2].text.replace(",", ""))
             return tl_rial_int/10 + 100
         except (InvalidArgumentException, WebDriverException):
