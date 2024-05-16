@@ -10,12 +10,15 @@ from time import sleep
 
 
 class TrendyolShop:
-    options = webdriver.ChromeOptions()
-    options.headless = True
-    # profile = webdriver.FirefoxProfile('/home/amin/.mozilla/firefox/1czivhxu.default-release')
-
+    chrome_options = Options()
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    
     url = "https://www.tgju.org/profile/price_try"
-    driver = webdriver.Chrome(options=options)  # (options=option, firefox_profile=profile)
+    
 
     def exchange_rates(self):
         try:
