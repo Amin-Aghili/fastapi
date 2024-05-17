@@ -41,6 +41,10 @@ prev_rate = 0
 # async def read_root():
 #     return EventSourceResponse(get_rate())
 
+@app.get('/')
+async def read_root():
+    return {"welcome baby"}
+
 
 @app.get("/price/{url:path}")
 async def read_root(url: str, merchantId: str | None = None, boutiqueId: str | None = None, v: str | None = None):
