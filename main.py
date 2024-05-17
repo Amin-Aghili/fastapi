@@ -43,7 +43,7 @@ prev_rate = 0
 
 @app.get('/')
 async def read_root():
-    return {"welcome baby"}
+    return "welcome baby"
 
 
 @app.get("/price/{url:path}")

@@ -89,7 +89,7 @@ class TrendyolShop:
             price_ir = int(round(round(price_tl, 1) * rate * 1.28, -3)) if price_tl and rate != 'Call to admin' else None
 
             return {
-                'image_url': image_url,
+                'imageUrl': image_url,
                 'price': price_tl,
                 'size': size,
                 'sizes': sizes,
