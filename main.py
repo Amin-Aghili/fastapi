@@ -52,6 +52,7 @@ async def read_root(url: str, merchantId: str | None = None, boutiqueId: str | N
     current_url = f'{url}?merchantId=${merchantId}&boutiqueId={boutiqueId}&v={v}'
     if url:
         data = trendyol.extract_data(current_url)
+        print(type(data))
         if data:
             return data
         else:

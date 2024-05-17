@@ -63,15 +63,6 @@ class TrendyolShop:
             price_element = soup.select('div.product-price-container span[class^="prc-"]')
             price_tl = float(price_element[-1].text.split()[0].replace('.', '').replace(',', '.')) if price_element else None
 
-            # Extract sizes
-            is_size = soup.find_all(class_="variants")
-            sizes = False
-            if len(is_size) > 0:
-                list_size = [i.text for i in soup.find_all(class_="sp-itm")]
-                print(list_size)
-                so_sizes = [size.text for size in soup.find_all(class_="so sp-itm")]
-                sizes = [size for size in list_size if size not in so_sizes]
-
             # Extract other details
             details_elements = soup.find_all(class_="detail-attr-container")
             details = None
@@ -80,29 +71,38 @@ class TrendyolShop:
                 details = details[0].split('\n')
 
             # Extract selected size
-            size_element = soup.find(class_="size-variant-attr-value")
+            _size = soup.select_one(".pr-in-sz-pk span span")
+
+            size_element = soup.select_one(".selected") if _size is None else _size
             so_sizes = [size.text for size in soup.find_all(class_="so sp-itm")]
-            size = f'out of stock "{size_element.text}" size' if size_element and size_element.text in so_sizes else (size_element.text if size_element else False)
+            size = f'out of stock selected size' if size_element is None and so_sizes else (size_element.text if size_element else None)
 
             # Calculate price in IR
             rate = self.exchange_rates()
             price_ir = int(round(round(price_tl, 1) * rate * 1.28, -3)) if price_tl and rate != 'Call to admin' else None
 
+            #  Extract selected colore
+            # todo
+
             return {
-                'imageUrl': image_url,
                 'price': price_tl,
                 'size': size,
-                'sizes': sizes,
-                'details': details,
                 'priceIr': price_ir,
-                'rate': rate
+                'rate': rate,
+                'imageUrl': image_url,
+                'details': details,
             }
         except Exception as e:
             print(e)
             return False
 
-# # استفاده از کلاس
+# استفاده از کلاس
+# url5 = "https://www.trendyol.com/karaca/linda-pembe-yemek-bicagi-p-35138783?boutiqueId=61&merchantId=253958"
+# url4 = "https://www.trendyol.com/karaca/rory-servis-tabagi-19-cm-p-646091822?boutiqueId=61&merchantId=253958"
+# url3 = "https://www.trendyol.com/bikelife/kadin-haki-yuksek-bel-genis-paca-kargo-pantolon-p-348872155?merchantId=470862&boutiqueId=61&v=36"
+# url1 = "https://www.trendyol.com/bikelife/kadin-haki-yuksek-bel-genis-paca-kargo-pantolon-p-348872155?merchantId=470862&boutiqueId=61&v=34"
+# url2 = 'https://www.trendyol.com/betilina/beyaz-vintage-baskili-t-shirt-p-799489054?boutiqueId=61&merchantId=837448&sav=true'
 # shop = TrendyolShop()
-# url = 'https://www.trendyol.com/nilu-moda/2-li-kristal-kadin-gozlugu-seti-p-239281625?merchantId=310861'
-# result = shop.extract_data(url)
+# url = 'https://www.trendyol.com/betilina/freedom-hypemode-vintage-baskili-t-shirt-p-824604032?merchantId=837448&boutiqueId=61&v=s-m'
+# result = shop.extract_data(url1)
 # print(result)
