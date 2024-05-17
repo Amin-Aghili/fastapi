@@ -1,28 +1,40 @@
 import requests
 from bs4 import BeautifulSoup
 import re
+from datetime import datetime, timedelta
+
 
 class TrendyolShop:
     exchange_url = "https://www.tgju.org/profile/price_try"
 
+    last_exchange_rate = None
+    last_update_time = None
+
     def exchange_rates(self):
-        try:
-            response = requests.get(self.exchange_url)
-            soup = BeautifulSoup(response.text, 'html.parser')
+        # اگر نرخ تبدیل هنوز بازیابی نشده یا بیش از یک روز از آخرین به‌روزرسانی گذشته است
+        if not self.last_exchange_rate or (datetime.now() - self.last_update_time) > timedelta(days=1):
+            try:
+                response = requests.get(self.exchange_url)
+                soup = BeautifulSoup(response.text, 'html.parser')
 
-            # پیدا کردن نرخ تبدیل
-            tl_rial = soup.find_all(class_="text-left")
-            tl_rial_int = int(tl_rial[2].text.replace(",", ""))
-            return tl_rial_int / 10 + 100
-        except Exception as e:
-            print(e)
-            return 'Call to admin'
+                # پیدا کردن نرخ تبدیل
+                tl_rial = soup.find_all(class_="text-left")
+                tl_rial_int = int(tl_rial[2].text.replace(",", ""))
+                self.last_exchange_rate = tl_rial_int / 10 + 100
+                self.last_update_time = datetime.now()
+            except Exception as e:
+                print(e)
+                return 'Call to admin'
 
-    def check_trendyol_url(self, url):
+        return self.last_exchange_rate
+
+    @staticmethod
+    def check_trendyol_url(url):
         regex = re.compile(r'^(https://)(?:www.trendyol.com|ty.gl)(/((?:[\w?!@#$%^&*()+|~><:;{}\][\=&-]*)(?<!/)))+/?', re.IGNORECASE)
         return re.match(regex, url) is not None and re.match(regex, url).group() == url
 
-    def fetch_product_data(self, url):
+    @staticmethod
+    def fetch_product_data(url):
         try:
             response = requests.get(url)
             if response.status_code != 200:
@@ -43,7 +55,7 @@ class TrendyolShop:
 
         try:
             # Extract image URL
-            
+
             images = soup.findAll('img')
             image_url = images[1]['src']
 
