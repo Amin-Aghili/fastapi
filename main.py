@@ -56,5 +56,4 @@ async def read_root(url: str, merchantId: str | None = None, boutiqueId: str | N
         if data:
             return data
         else:
-            return 'url is fuck!?'
-
+            return None

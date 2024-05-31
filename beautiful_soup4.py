@@ -26,7 +26,7 @@ class TrendyolShop:
                 print(e)
                 return 'Call to admin'
 
-        return self.last_exchange_rate
+        return {"rate": self.last_exchange_rate}
 
     @staticmethod
     def check_trendyol_url(url):
@@ -89,7 +89,7 @@ class TrendyolShop:
             rate = self.exchange_rates()
             price_ir = int(round(round(price_tl, 1) * rate * 1.28, -3)) if price_tl and rate != 'Call to admin' else None
 
-            #  Extract selected colore
+            #  Extract selected color
             # todo
 
             return {
