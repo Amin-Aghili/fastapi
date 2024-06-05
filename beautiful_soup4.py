@@ -83,7 +83,7 @@ class TrendyolShop:
 
             size_element = soup.select_one(".selected") if _size is None else _size
             so_sizes = [size.text for size in soup.find_all(class_="so sp-itm")]
-            size = f'out of stock selected size' if size_element is None and so_sizes else (size_element.text if size_element else None)
+            size = f'out of stock' if size_element is None and so_sizes else (size_element.text if size_element else None)
 
             # Calculate price in IR
             rate = self.exchange_rates()
