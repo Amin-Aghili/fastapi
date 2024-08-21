@@ -2,7 +2,7 @@ from typing import Union
 from fastapi import FastAPI
 from sse_starlette.sse import EventSourceResponse
 # from price_trendyol import TrendyolShop
-# from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from beautiful_soup4 import TrendyolShop
 
 import asyncio
