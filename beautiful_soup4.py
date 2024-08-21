@@ -93,6 +93,7 @@ class TrendyolShop:
             # todo
 
             return {
+                'url': url
                 'price': price_tl,
                 'size': size,
                 'color': color,
