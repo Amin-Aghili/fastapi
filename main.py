@@ -16,7 +16,13 @@ app = FastAPI()
 #     allow_methods=["*"],
 #     allow_headers=["*"],
 # )
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # یا مشخص کردن دامنه‌هایی که اجازه دارند
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 trendyol = TrendyolShop()
 
 prev_rate = 0
